@@ -17,9 +17,9 @@ The production build is a static site in `dist/`. Use `npm run preview` to serve
 
 ## Deploy to GitHub Pages
 
-In the repository, open **Settings > Pages** and set **Build and deployment > Source** to **GitHub Actions**. Push the workflow to `main` to build and deploy automatically. You can also run **Deploy to GitHub Pages** manually from the Actions tab.
+Use **Deploy from a branch**, with **main** and **/ (root)** as the source. The repository root opens the checked-in production build in `site/`.
 
-The production build uses relative asset URLs, so it works at the repository path `/solar3D/` or at the root of a custom domain.
+After editing the app, run `npm run build:pages` and commit the updated `site/` alongside the source changes. GitHub Pages serves these files directly.
 
 ## Controls
 
