@@ -15,6 +15,12 @@ npm run build
 
 The production build is a static site in `dist/`. Use `npm run preview` to serve it locally.
 
+## Deploy to GitHub Pages
+
+In the repository, open **Settings > Pages** and set **Build and deployment > Source** to **GitHub Actions**. Push the workflow to `main` to build and deploy automatically. You can also run **Deploy to GitHub Pages** manually from the Actions tab.
+
+The production build uses relative asset URLs, so it works at the repository path `/solar3D/` or at the root of a custom domain.
+
 ## Controls
 
 - Choose a body from Bodies to jump to its close-up. In free flight, click a viewport label for an assisted approach. Use System overview to pull back and the scale button to use proportional distances and radii.

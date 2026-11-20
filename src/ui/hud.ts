@@ -82,7 +82,7 @@ export function mount(root:HTMLElement){
         <summary id="inspector-label">Body details</summary>
         <div class="panel">
           <div id="body-card" class="body-card"></div>
-          <div class="metrics">${metrics.map(([id,label,unit],i)=>'<div class="metric'+(i>3?' advanced':'')+'"><span>'+label+'</span><strong id="metric-'+id+'">—</strong><small>'+unit+'</small></div>').join('')}</div>
+          <div class="metrics">${metrics.map(([id,label,unit],i)=>'<div class="metric'+(i>3?' advanced':'')+'"><span>'+label+'</span><strong id="metric-'+id+'">N/A</strong><small>'+unit+'</small></div>').join('')}</div>
           <details id="advanced"><summary>Orbital details</summary><div id="advanced-metrics"></div></details>
           <div id="mass-controls"><div class="split"><label for="mass">Mass multiplier</label><output id="mass-value">1.00×</output></div>
             <input id="mass" type="range" min="-2" max="2" step=".005" value="0"></div>
@@ -93,7 +93,7 @@ export function mount(root:HTMLElement){
       <div class="playback">${btn('play','Pause or play (Space)','pause')}${btn('reverse','Reverse time','rewind')}${btn('step','Advance one physics step while paused','step')}${btn('reset','Reset current system','restart')}</div>
       <strong id="epoch" aria-label="Simulation date">2009 MAY 21</strong><span id="epoch-clock" aria-label="Simulation time (UTC)" title="Simulation time (UTC)">00:00:00</span>
       <div class="warp"><label for="warp" class="sr-only">Time warp</label><input id="warp" type="range" min="0" max="8" step="1"><output id="warp-value"></output></div>
-      <span id="fps" class="sr-only">— FPS</span>
+      <span id="fps" class="sr-only">FPS pending</span>
     </footer>
     <dialog id="controls-dialog"><form method="dialog"><button aria-label="Close controls" class="icon-btn">${icon('close')}</button><h2>Flight controls</h2><dl><dt>Free flight</dt><dd>Use Fly or F, then drag to look. Move with WASD or the arrow keys, change altitude with Q and E, and hold Shift to boost. Click a planet label for an assisted approach. Choose a planet from Bodies to jump straight to its close-up. Escape returns to orbit controls.</dd><dt>Orbit camera</dt><dd>Drag with the primary button or one finger.</dd><dt>Zoom and pan</dt><dd>Scroll or pinch to zoom. Right-drag or use two fingers to pan.</dd><dt>Track a body</dt><dd>Choose a body from the catalog or click it in the viewport.</dd><dt>Time</dt><dd>Space pauses or resumes. R changes time direction.</dd><dt>Launch body</dt><dd>Arm the tool, then pull back on the ecliptic and release. Escape cancels.</dd></dl><p class="credits">Planetary imagery by <a href="https://www.solarsystemscope.com/textures/" target="_blank" rel="noopener noreferrer">Solar System Scope</a> · CC BY 4.0</p></form></dialog>`;
   const advanced=root.querySelector('#advanced-metrics')!;
@@ -146,7 +146,7 @@ export function card(body:Body|null,baseline:number){
   byId<HTMLInputElement>('mass').value=String(Math.log10(body.mass/baseline));
 }
 const precision=(n:number|undefined, digits:number)=>{
-  if(n===undefined || Number.isNaN(n)) return '—';
+  if(n===undefined || Number.isNaN(n)) return 'N/A';
   if(!Number.isFinite(n)) return '∞';
   if(n!==0 && Math.abs(n)<10**(-digits)) return n.toExponential(2);
   return n.toLocaleString('en-US',{minimumFractionDigits:digits,maximumFractionDigits:digits});
@@ -157,7 +157,7 @@ export function telemetry(body:Body|null,primary:Body|null,baseline:number){
     precision(body && body.kind!=='black hole' ? surfaceGravity(body):undefined,2),precision(orbit?.peri,3),
     precision(orbit?.apo,3),precision(orbit?.period,2),precision(orbit?.escape,2)];
   metrics.forEach(([id],i)=>{byId('metric-'+id).textContent=values[i];});
-  byId('mass-value').textContent=body ? precision(body.mass/baseline,2)+'×' : '—';
+  byId('mass-value').textContent=body ? precision(body.mass/baseline,2)+'×' : 'N/A';
   if(body) byId('mass').setAttribute('aria-valuetext',precision(body.mass/EARTH_MASS,2)+' Earth masses');
 }
 
